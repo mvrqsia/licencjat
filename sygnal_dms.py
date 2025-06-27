@@ -3,6 +3,7 @@ import pandas as pd
 from Bio import SeqIO
 from pathlib import Path
 
+#W przypadku wiecej niż jednej pary danych DMS, kod ten należy przepuścić osobno dla każdej pary
 # Nazwy plików zliczeń RT po filtracji
 files = {
     "plus": "/Users/mariachmielorz/Desktop/RTS_counts/plus2_sense.tab",
@@ -24,7 +25,7 @@ for label, path in files.items():
     with open(f"/Users/mariachmielorz/Desktop/RTS_counts/{label}.tsv", "w") as f:
         f.writelines(table)
 
-# Wczytanie TSV do Pandas
+# Wczytanie TSV
 plus = pd.read_csv("/Users/mariachmielorz/Desktop/RTS_counts/plus.tsv", sep="\t")
 minus = pd.read_csv("/Users/mariachmielorz/Desktop/RTS_counts/minus.tsv", sep="\t")
 
@@ -49,7 +50,6 @@ for r in ref:
     count_plus = plus_chr["count"].astype(int).values
     count_minus = minus_chr["count"].astype(int).values
 
-    # Różnica sygnału (bez wartości ujemnych)
     count = np.maximum(count_plus - count_minus, 0)
 
     # Normalizacja (2–8% górnych sygnałów)
